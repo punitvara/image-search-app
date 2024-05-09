@@ -1,0 +1,10 @@
+first Install pipenv package on your local
+
+// if requirement.txt is available then run below command
+pipenv install
+
+// else
+create Pipfile and add dependencies accordingly. It will automatically install dependencies and python-version for virtual env to run application.
+
+then to actiavte virtual environment run below command
+pipenv shell
