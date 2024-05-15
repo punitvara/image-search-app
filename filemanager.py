@@ -1,9 +1,9 @@
 import sys
 import os
 import shutil
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QTreeView, QFileSystemModel, QPushButton, QMessageBox, QTabWidget, QLineEdit, QAbstractItemView, QFileDialog
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QTreeView, QFileSystemModel, QPushButton, QMessageBox, QTabWidget, QLineEdit, QAbstractItemView, QFileDialog, QComboBox, QHBoxLayout
 from PyQt5.QtCore import Qt,  QItemSelectionModel
-
+from PyQt5.QtGui import QIcon, QPixmap
 
 class FileManager(QWidget):
     def __init__(self):
@@ -59,7 +59,16 @@ class TabView(QWidget):
         self.btn_back = QPushButton("Back")
         self.btn_open_new_tab = QPushButton("Open in New Tab")
 
+        self.icon_size_combo = QComboBox()
+        self.icon_size_combo.addItems(["Small", "Medium", "Large"])
+        self.icon_size_combo.currentTextChanged.connect(self.set_icon_size)
+
+        header_layout = QHBoxLayout()
+        header_layout.addWidget(self.search_input)
+        header_layout.addWidget(self.icon_size_combo)
+
         layout = QVBoxLayout()
+        layout.addLayout(header_layout)
         layout.addWidget(self.search_input)
         layout.addWidget(self.tree_view)
         layout.addWidget(self.btn_copy)
@@ -78,11 +87,20 @@ class TabView(QWidget):
 
         self.copy_sources = []
 
+    def set_icon_size(self, text):
+        if text == "Small":
+            self.tree_view.setIconSize(QPixmap(32, 32).size())
+        elif text == "Medium":
+            self.tree_view.setIconSize(QPixmap(64, 64).size())
+        elif text == "Large":
+            self.tree_view.setIconSize(QPixmap(128, 128).size())
+
     def directory_double_clicked(self, index):
         directory_path = self.model.filePath(index)
         if os.path.isdir(directory_path):
             self.tree_view.setRootIndex(self.model.index(directory_path))
             self.history.append(directory_path)
+            self.set_icon_size(self.icon_size_combo.currentText())
 
     def file_clicked(self, index):
         file_path = self.model.filePath(index)
