@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pyqt5 = "*"
+torch = "*"
+clip = "*"
+pillow = "*"
+ftfy = "*"
+regex = "*"
+tqdm = "*"
+pyqt5-qt5 = "*"
+pyqt5-sip = "*"
+torchvision = "*"
+numpy = "*"
+jinja2 = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
